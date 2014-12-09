@@ -13,15 +13,16 @@ License: GPLv2
 
     /* Con este código, se crea una linea en el menú de Administración */
     function opg_show_menu_links(){
-        add_menu_page('Enlaces de interés','Enlaces de interés','manage_options','plugin_opg_links','opg_plugin_links_show_form_in_wpadmin', plugins_url('images/icon-web.png', __FILE__));
-        //le hemos añadido al menú una imagen
+        add_menu_page('Oscar Pérez Plugins','Oscar Pérez Plugins','manage_options','opg_plugins','opg_plugin_links_show_form_in_wpadmin', '', 110);
+        add_submenu_page( 'opg_plugins', 'Enlaces de interes', 'Enlaces de interes', 'manage_options', 'opg_weblinks', 'opg_plugin_links_show_form_in_wpadmin');
+        remove_submenu_page( 'opg_plugins', 'opg_plugins' );        
     }
     add_action( 'admin_menu', 'opg_show_menu_links' );
 
 
     //Hook al activar y desactivar el plugin
     register_activation_hook( __FILE__, 'opg_plugin_links_activate' );
-    register_deactivation_hook( __FILE__, 'opg_plugin_links_deactivate' );
+    register_uninstall_hook( __FILE__, 'opg_plugin_links_uninstall' );
 
 
     // Se crea la tabla al activar el plugin
@@ -36,7 +37,7 @@ License: GPLv2
     }
 
     // Se borra la tabla al desactivar el plugin
-    function opg_plugin_links_deactivate() {
+    function opg_plugin_links_uninstall() {
         global $wpdb;
         $sql = 'DROP TABLE `' . $wpdb->prefix . 'opg_plugin_links`';
         $wpdb->query($sql);
@@ -78,7 +79,7 @@ License: GPLv2
             return false;
         }
         else{
-            _e('<div class="updated"><p><strong>Link stored in database</strong></p></div>');
+            _e('<div class="updated"><p><strong>Información del enlace guardada correctamente</strong></p></div>');            
         }
         return true;
     }
@@ -99,7 +100,7 @@ License: GPLv2
             return false;
         }
         else{
-            _e('<div class="updated"><p><strong>Link deleted to database</strong></p></div>');
+            _e('<div class="updated"><p><strong>Se ha borrado la información del enlace</strong></p></div>');            
         }
         return true;
     }
@@ -123,7 +124,7 @@ License: GPLv2
             return false;
         }
         else{
-            _e('<div class="updated"><p><strong>Link updated in database</strong></p></div>');
+            _e('<div class="updated"><p><strong>Enlace modificado correctamente</strong></p></div>');            
         }
         return true;
     }
@@ -152,10 +153,10 @@ License: GPLv2
             <table class="wp-list-table widefat manage-column" style="width:95%">            
              <thead>
                 <tr>
-                    <th scope="col" class="manage-column" style=""><span>Name</span></a></th>
+                    <th scope="col" class="manage-column" style=""><span>Nombre</span></a></th>
                     <th scope="col" class="manage-column" style=""><span>Url</span></a></th>
-                    <th scope="col" class="manage-column" style=""><span>Edit</span></a></th>
-                    <th scope="col" class="manage-column" style=""><span>Delete</span></a></th>
+                    <th scope="col" class="manage-column" style=""><span>Modificar</span></a></th>
+                    <th scope="col" class="manage-column" style=""><span>Borrar</span></a></th>
                 </tr>
              </thead>
              <tbody>
@@ -170,8 +171,8 @@ License: GPLv2
 ?>
                     <td><?php echo( $link->name ); ?></td>
                     <td><?php echo( $link->url ); ?></td>
-                    <td><a href="admin.php?page=plugin_opg_links&amp;task=edit_link&amp;id=<?php echo( $link->idLink ); ?>">Edit</a></td>
-                    <td><a href="admin.php?page=plugin_opg_links&amp;task=remove_link&amp;id=<?php echo( $link->idLink ); ?>">Delete</a></td>                    
+                    <td><a href="admin.php?page=opg_weblinks&amp;task=edit_link&amp;id=<?php echo( $link->idLink ); ?>">Modificar</a></td>
+                    <td><a href="admin.php?page=opg_weblinks&amp;task=remove_link&amp;id=<?php echo( $link->idLink ); ?>">Borrar</a></td>                    
                 </tr>
 <?php                
             }
@@ -196,7 +197,7 @@ License: GPLv2
         $valueInputName  = "";
         $valueInputId    = "";
 
-        echo("<div class='wrap'><h2>Add a new link</h2></div>"); 
+        echo("<div class='wrap'><h2>Añadir una nueva url</h2></div>"); 
 
         if(isset($_POST['action']) && $_POST['action'] == 'salvaropciones'){
 
@@ -237,26 +238,25 @@ License: GPLv2
             }
         }
 ?>
-        <p>Plugin to create a list of links</p>
-        <form method='post' action='options-general.php?page=plugin_opg_links' name='opgPluginAdminForm' id='opgPluginAdminForm'>
+        <form method='post' action='admin.php?page=opg_weblinks' name='opgPluginAdminForm' id='opgPluginAdminForm'>
             <input type='hidden' name='action' value='salvaropciones'> 
             <table class='form-table'>
                 <tbody>
                     <tr>
-                        <th><label for='name'>Name</label></th>
+                        <th><label for='name'>Nombre</label></th>
                         <td>
-                            <input type='text' name='name' id='name' placeholder='Enter a name' value="<?php echo $valueInputName ?>" style='width: 500px'>
+                            <input type='text' name='name' id='name' placeholder='Introduzca el nombre' value="<?php echo $valueInputName ?>" style='width: 500px'>
                         </td>
                     </tr>
                     <tr>
                         <th><label for='url'>Url</label></th>
                         <td>
-                            <input type='text' name='url' id='url' placeholder='Enter a url' value="<?php echo $valueInputUrl ?>" style='width: 500px'>
+                            <input type='text' name='url' id='url' placeholder='Introduzca la url' value="<?php echo $valueInputUrl ?>" style='width: 500px'>
                         </td>
                     </tr>
                     <tr>
                         <td colspan='2' style='padding-left:140px'>
-                            <input type='submit' value='Send information'>
+                            <input type='submit' value='Enviar'>
                             <input type='hidden' name="idLink" value="<?php echo $valueInputId ?>">
                         </td>
                     </tr>
