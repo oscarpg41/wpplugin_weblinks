@@ -7,25 +7,19 @@ Author: Oskar Pérez
 Author URI: http://www.oscarperez.es/
 Version: 1.0
 License: GPLv2
-
-Releases:
-1.0 Versión inicial
-1.1 Se añade el campo email al registro del concejal. 
-    En el listado de concejales cambiamos los literales 'Modificar' y 'Borrar' por dos imagenes.
-    Antes de eliminar el registro, se pide una confirmación mediante un confirm de JavaScript
 */
 ?>
 <?php
 
     //registramos el fichero js que necesitamos
-    wp_register_script('myWebLinkScript', WP_PLUGIN_URL . '/opg_weblinks/opg_weblinks.js');
+    wp_register_script('myWebLinkScript', WP_PLUGIN_URL .'/opg_weblinks/opg_weblinks.js', array('jquery','media-upload','thickbox'));
+    wp_enqueue_script('myWebLinkScript');      
 
     /* Con este código, se crea una linea en el menú de Administración */
     function opg_show_menu_links(){
         add_menu_page('Oscar Pérez Plugins','Oscar Pérez Plugins','manage_options','opg_plugins','opg_plugin_links_show_form_in_wpadmin', '', 110);
         add_submenu_page( 'opg_plugins', 'Enlaces de interes', 'Enlaces de interes', 'manage_options', 'opg_weblinks', 'opg_plugin_links_show_form_in_wpadmin');
-        remove_submenu_page( 'opg_plugins', 'opg_plugins' );
-        wp_enqueue_script('myWebLinkScript');                
+        remove_submenu_page( 'opg_plugins', 'opg_plugins' );             
     }
     add_action( 'admin_menu', 'opg_show_menu_links' );
 
@@ -160,7 +154,7 @@ Releases:
 ?>
             <hr style="width:94%; margin:20px 0">   
             <h2>Listado de enlaces</h2>
-            <table class="wp-list-table widefat manage-column" style="width:95%">            
+            <table class="wp-list-table widefat manage-column" style="width:98%">            
              <thead>
                 <tr>
                     <th scope="col" class="manage-column"><span>Nombre</span></th>
@@ -182,7 +176,7 @@ Releases:
                     <td><?php echo( $link->name ); ?></td>
                     <td><?php echo( $link->url ); ?></td>
                     <td><a href="admin.php?page=opg_weblinks&amp;task=edit_link&amp;id=<?php echo( $link->idLink ); ?>"><img src="<?php echo WP_PLUGIN_URL.'/opg_concejales/img/modificar.png'?>" alt="Modificar"></a></td>
-                    <td><a href="javascript:borrarLink(<?php echo( $link->idLink );?>)"><img src="<?php echo WP_PLUGIN_URL.'/opg_concejales/img/papelera.png'?>" alt="Borrar"></a></td>
+                    <td><a href="#"><img src="<?php echo WP_PLUGIN_URL.'/opg_aside/img/papelera.png'?>" alt="Borrar" id="<?php echo( $link->idLink ); ?>" class="btnDeleteLink"></a></td>
                 </tr>
 <?php                
             }
