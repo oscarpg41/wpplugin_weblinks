@@ -20,8 +20,11 @@ The weblinks database have three columns:
 -url VARCHAR( 140 ) NOT NULL )';
 
 
-The plugin contains one files:
-- opg_weblinks.php: the plugin
+The plugin contains four files:
+- opg_weblinks.php
+- opg_weblinks.js
+- img/modificar.png
+- img/papelera.png
 
 == Installation ==
 
