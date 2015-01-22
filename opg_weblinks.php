@@ -201,8 +201,6 @@ License: GPLv2
         $valueInputName  = "";
         $valueInputId    = "";
 
-        echo("<div class='wrap'><h2>Añadir una nueva url</h2></div>"); 
-
         if(isset($_POST['action']) && $_POST['action'] == 'salvaropciones'){
 
             //si el input idLink (hidden) está vacio, se trata de un nuevo registro
@@ -229,6 +227,8 @@ License: GPLv2
 
             switch ($task) {
                 case 'edit_link':
+                    echo("<div class='wrap'><h2>Modificar información de la url</h2></div>"); 
+                    
                     $row = opg_plugin_link_getId($id);
                     $valueInputUrl = $row->url;
                     $valueInputName  = $row->name;
@@ -238,6 +238,7 @@ License: GPLv2
                     opg_link_remove($id);
                     break;
                 default:
+                    echo("<div class='wrap'><h2>Añadir una nueva url</h2></div>"); 
                     break;
             }
         }
