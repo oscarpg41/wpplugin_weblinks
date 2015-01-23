@@ -14,9 +14,12 @@ This plugin helps to manage the list of url's easily over the WordPress blog.
 
 Language: Spanish
 
-The weblinks database have three columns:
+The opg_plugin_weblinks database have three columns:
+
 -idLink INT( 11 ) ,
+
 -name VARCHAR( 100 ) NOT NULL ,
+
 -url VARCHAR( 140 ) NOT NULL )';
 
 
