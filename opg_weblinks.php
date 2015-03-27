@@ -175,8 +175,8 @@ License: GPLv2
 ?>
                     <td><?php echo( $link->name ); ?></td>
                     <td><?php echo( $link->url ); ?></td>
-                    <td><a href="admin.php?page=opg_weblinks&amp;task=edit_link&amp;id=<?php echo( $link->idLink ); ?>"><img src="<?php echo WP_PLUGIN_URL.'/opg_concejales/img/modificar.png'?>" alt="Modificar"></a></td>
-                    <td><a href="#"><img src="<?php echo WP_PLUGIN_URL.'/opg_aside/img/papelera.png'?>" alt="Borrar" id="<?php echo( $link->idLink ); ?>" class="btnDeleteLink"></a></td>
+                    <td><a href="admin.php?page=opg_weblinks&amp;task=edit_link&amp;id=<?php echo( $link->idLink ); ?>"><img src="<?php echo WP_PLUGIN_URL.'/opg_weblinks/img/modificar.png'?>" alt="Modificar"></a></td>
+                    <td><a href="#"><img src="<?php echo WP_PLUGIN_URL.'/opg_weblinks/img/papelera.png'?>" alt="Borrar" id="<?php echo( $link->idLink ); ?>" class="btnDeleteLink"></a></td>
                 </tr>
 <?php                
             }
